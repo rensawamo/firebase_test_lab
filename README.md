@@ -51,11 +51,30 @@ Provides broad coverage with minimal effort but may miss specific edge cases.
 
 ### [Android set up](https://github.com/flutter/flutter/tree/main/packages/integration_test#android-device-testing)
 
+Add firebase_options and google_service.json  and  setting gcloud
+```sh
+$ gcloud auth login
+
+$ gcloud config set project PROJECT_ID
+
+```
+
+
 To run integration_test/foo_test.dart on a local Android device (emulated or physical):
 
 ```sh
 $ ./gradlew app:connectedAndroidTest -Ptarget=`pwd`/../integration_test/integration_test.dart
 ```
+
+create apk 
+```sh
+$ pushd android
+flutter build apk
+./gradlew app:assembleAndroidTest
+./gradlew app:assembleDebug -Ptarget=<path_to_test>.dart
+popd
+```
+
 Upload the build apks Firebase Test Lab, 
 ```sh
 $ gcloud firebase test android run --type instrumentation   --app build/app/outputs/apk/debug/app-debug.apk   --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk   --timeout 2m
